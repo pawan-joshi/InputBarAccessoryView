@@ -29,15 +29,15 @@ import UIKit
 
 internal extension UIView {
     
-    func fillSuperview() {
+    func fillSuperview(_ padding: UIEdgeInsets = UIEdgeInsets.zero) {
         guard let superview = self.superview else {
             return
         }
         translatesAutoresizingMaskIntoConstraints = false
-        leftAnchor.constraint(equalTo: superview.leftAnchor).isActive = true
-        rightAnchor.constraint(equalTo: superview.rightAnchor).isActive = true
-        topAnchor.constraint(equalTo: superview.topAnchor).isActive = true
-        bottomAnchor.constraint(equalTo: superview.bottomAnchor).isActive = true
+        leftAnchor.constraint(equalTo: superview.leftAnchor, constant: padding.left).isActive = true
+        rightAnchor.constraint(equalTo: superview.rightAnchor, constant: padding.right).isActive = true
+        topAnchor.constraint(equalTo: superview.topAnchor, constant: padding.top).isActive = true
+        bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: padding.bottom).isActive = true
     }
 
     @discardableResult

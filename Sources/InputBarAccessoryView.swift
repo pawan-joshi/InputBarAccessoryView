@@ -211,6 +211,12 @@ open class InputBarAccessoryView: UIView {
         }
     }
     
+    open var inputTextViewPadding: UIEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 0) {
+        didSet {
+            updateInputTextViewPadding()
+        }
+    }
+    
     /**
      The anchor constants used by the top InputStackView
      
@@ -478,7 +484,7 @@ open class InputBarAccessoryView: UIView {
             right:  middleContentViewWrapper.rightAnchor.constraint(equalTo: rightStackView.leftAnchor, constant: -middleContentViewPadding.right)
         )
 
-        inputTextView.fillSuperview()
+        inputTextView.fillSuperview(inputTextViewPadding)
         maxTextViewHeight = calculateMaxTextViewHeight()
         textViewHeightAnchor = inputTextView.heightAnchor.constraint(equalToConstant: maxTextViewHeight)
         
@@ -544,6 +550,17 @@ open class InputBarAccessoryView: UIView {
         middleContentViewLayoutSet?.right?.constant = -middleContentViewPadding.right
         middleContentViewLayoutSet?.bottom?.constant = -middleContentViewPadding.bottom
         bottomStackViewLayoutSet?.top?.constant = middleContentViewPadding.bottom
+    }
+    
+    private func updateInputTextViewPadding() {
+        if let superview = inputTextView.superview {
+            inputTextView.removeAllConstraints()
+            inputTextView.translatesAutoresizingMaskIntoConstraints = false
+            inputTextView.leftAnchor.constraint(equalTo: superview.leftAnchor, constant: inputTextViewPadding.left).isActive = true
+            inputTextView.rightAnchor.constraint(equalTo: superview.rightAnchor, constant: inputTextViewPadding.right).isActive = true
+            inputTextView.topAnchor.constraint(equalTo: superview.topAnchor, constant: inputTextViewPadding.top).isActive = true
+            inputTextView.bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: inputTextViewPadding.bottom).isActive = true
+        }
     }
     
     /// Updates the constraint constants that correspond to the topStackViewPadding UIEdgeInsets
